@@ -1,41 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Weather App</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        form { margin-bottom: 20px; }
-        img { height: 80px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Weather App</h1>
+<body class="bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 min-h-screen flex items-center justify-center">
 
-    <!-- Main form to enter city -->
-    <form method="POST">
-        <input type="text" name="city" placeholder="Enter city" required>
-        <input type="hidden" name="unit" value="metric">
-        <button type="submit">Get Weather</button>
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold mb-6 text-blue-700">🌤️ Weather App</h1>
+
+    <!-- City Input Form -->
+    <form method="POST" class="space-y-4">
+      <input 
+        type="text" 
+        name="city" 
+        placeholder="Enter city" 
+        required 
+        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <input type="hidden" name="unit" value="metric">
+      <button 
+        type="submit" 
+        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+      >
+        Get Weather
+      </button>
     </form>
 
     {% if weather %}
+      <div class="mt-8">
         {% if weather.error %}
-            <p style="color:red;">{{ weather.error }}</p>
+          <p class="text-red-500 font-semibold">{{ weather.error }}</p>
         {% else %}
-            <h2>Weather in {{ weather.city }}</h2>
-            <p>{{ weather.temperature }}{{ weather.unit }}</p>
-            <p>{{ weather.description.title() }}</p>
-            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+          <h2 class="text-2xl font-semibold text-gray-800">{{ weather.city }}</h2>
+          <div class="text-4xl font-bold my-2">{{ weather.temperature }}{{ weather.unit }}</div>
+          <p class="capitalize text-gray-600">{{ weather.description }}</p>
+          <img class="mx-auto mt-4" src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon">
 
-            <!-- Unit toggle form -->
-            <form method="POST">
-                <input type="hidden" name="city" value="{{ city }}">
-                <input type="hidden" name="unit" value="{{ 'imperial' if unit == 'metric' else 'metric' }}">
-                <button type="submit">
-                    Switch to {{ 'Fahrenheit' if unit == 'metric' else 'Celsius' }}
-                </button>
-            </form>
+          <!-- Unit Toggle Button -->
+          <form method="POST" class="mt-6">
+            <input type="hidden" name="city" value="{{ city }}">
+            <input type="hidden" name="unit" value="{{ 'imperial' if unit == 'metric' else 'metric' }}">
+            <button 
+              type="submit" 
+              class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition"
+            >
+              Switch to {{ 'Fahrenheit' if unit == 'metric' else 'Celsius' }}
+            </button>
+          </form>
         {% endif %}
+      </div>
     {% endif %}
+  </div>
+
 </body>
 </html>
