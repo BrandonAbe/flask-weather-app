@@ -10,8 +10,11 @@
 </head>
 <body>
     <h1>Weather App</h1>
+
+    <!-- Main form to enter city -->
     <form method="POST">
         <input type="text" name="city" placeholder="Enter city" required>
+        <input type="hidden" name="unit" value="metric">
         <button type="submit">Get Weather</button>
     </form>
 
@@ -20,9 +23,18 @@
             <p style="color:red;">{{ weather.error }}</p>
         {% else %}
             <h2>Weather in {{ weather.city }}</h2>
-            <p>{{ weather.temperature }}°C</p>
+            <p>{{ weather.temperature }}{{ weather.unit }}</p>
             <p>{{ weather.description.title() }}</p>
             <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+
+            <!-- Unit toggle form -->
+            <form method="POST">
+                <input type="hidden" name="city" value="{{ city }}">
+                <input type="hidden" name="unit" value="{{ 'imperial' if unit == 'metric' else 'metric' }}">
+                <button type="submit">
+                    Switch to {{ 'Fahrenheit' if unit == 'metric' else 'Celsius' }}
+                </button>
+            </form>
         {% endif %}
     {% endif %}
 </body>
